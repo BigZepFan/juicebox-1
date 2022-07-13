@@ -24,21 +24,23 @@ async function createInitialUsers() {
     const albert = await createUser({
       username: "albert",
       password: "bertie99",
+      name: "ALBERT",
+      location: "Bangladesh",
+    });
+    const sandra = await createUser({
+      username: "sandra",
+      password: "2sandy4me",
+      name: "SANDRA",
+      location: "Jonesville",
+    });
+    const glamgal = await createUser({
+      username: "glamgal",
+      password: "soglam",
+      name: "GLAM",
+      location: "Salt Lake",
     });
 
-    // MIMIC THIS:
-    // const { rows } = await client.query(
-    //   `SELECT id, username
-    //   FROM users;
-    // `
-
-    // const albertTwo = await createUser({
-    //   username: "albert",
-    //   password: "imposter_albert",
-    // });
-
     console.log(albert);
-    // console.log("Albert 2", albertTwo);
 
     console.log("Finished creating users!");
   } catch (error) {
@@ -70,7 +72,11 @@ async function createTables() {
       CREATE TABLE users (
         id SERIAL PRIMARY KEY,
         username varchar(255) UNIQUE NOT NULL,
-        password varchar(255) NOT NULL
+        password varchar(255) NOT NULL,
+        name VARCHAR(255) NOT NULL,
+        location VARCHAR (255) NOT NULL,
+        active BOOLEAN DEFAULT true
+        
       );
     `);
 
