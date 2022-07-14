@@ -156,9 +156,8 @@ async function testDB() {
     console.log("Result:", albert);
 
     console.log("Finished database tests!");
-    console.log("hi");
   } catch (error) {
-    console.error("Error testing database!");
+    console.log("Error during testDB");
     throw error;
   }
 }
