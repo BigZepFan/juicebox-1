@@ -61,7 +61,7 @@ async function createPost({ authorId, title, content }) {
     const {
       rows: [post],
     } = await client.query(
-      `INSERT INTO posts("authorId", title, content)
+      `INSERT INTO posts("authorId", title, content, tags)
       VALUES($1,$2,$3)
       RETURNING *;      
       `,
@@ -152,6 +152,37 @@ async function getUserById(userId) {
     throw error;
   }
 }
+async function createTags(tagList) {
+  if (tagList.length === 0) {
+    return;
+  }
+
+  // need something like: $1), ($2), ($3
+  const insertValues = tagList.map((_, index) => `$${index + 1}`).join("), (");
+  // then we can use: (${ insertValues }) in our string template
+
+  // need something like $1, $2, $3
+  const selectValues = tagList.map((_, index) => `$${index + 1}`).join(", ");
+  // then we can use (${ selectValues }) in our string template
+
+  try {
+    const {
+      rows: [tags],
+    } = await client.query(
+      `INSERT INTO tags(name)
+VALUES ($1), ($2), ($3)
+ON CONFLICT (name) DO NOTHING;`,
+      [tag, othertag, moretag]
+    );
+  } catch (error) {
+    throw error;
+  }
+}
+
+// insert the tags, doing nothing on conflict
+// returning nothing, we'll query after
+// select all tags where the name is in our taglist
+// return the rows from the query
 
 // and export them
 module.exports = {
