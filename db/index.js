@@ -13,6 +13,15 @@ async function getAllUsers() {
   return rows;
 }
 
+async function getAllTags() {
+  const { rows } = await client.query(
+    `SELECT * 
+    FROM tags`
+  );
+
+  return rows;
+}
+
 async function getPostsByUser(userId) {
   try {
     const { rows } = client.query(`
@@ -324,4 +333,5 @@ module.exports = {
   getPostById,
   getPostsByUser,
   getPostsByTagName,
+  getAllTags,
 };
